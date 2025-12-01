@@ -1,0 +1,298 @@
+// test counter
+let mut testspassed = 0
+let mut testsfailed = 0
+
+fn test(name, condition) {
+  if condition {
+    testspassed = testspassed + 1
+    print("✓", name)
+  } else {
+    testsfailed = testsfailed + 1
+    print("✗", name)
+  }
+}
+
+// 1. variables and scoping
+let immutable = 42
+test("immutable variable", immutable == 42)
+
+let mut mutable = 10
+mutable = 20
+test("mutable variable", mutable == 20)
+
+{
+  let scoped = 99
+  test("inner scope variable", scoped == 99)
+}
+
+let shadowed = 1
+{
+  let shadowed = 2
+  test("variable shadowing inner", shadowed == 2)
+}
+test("variable shadowing outer", shadowed == 1)
+
+// 2. arithmetic operators
+test("addition", 5 + 3 == 8)
+test("subtraction", 10 - 4 == 6)
+test("multiplication", 6 * 7 == 42)
+test("division", 20 / 4 == 5)
+test("modulo", 17 % 5 == 2)
+test("negation", -5 == 0 - 5)
+test("operator precedence", 2 + 3 * 4 == 14)
+test("parentheses", (2 + 3) * 4 == 20)
+
+// 3. comparison operators
+test("equality", 5 == 5)
+test("inequality", 5 != 6)
+test("less than", 3 < 5)
+test("less or equal", 5 <= 5)
+test("greater than", 10 > 5)
+test("greater or equal", 7 >= 7)
+
+// 4. boolean logic
+test("true literal", true == true)
+test("false literal", false == false)
+test("boolean inequality", true != false)
+
+// 5. control flow - if statements
+let ifresult = 0
+if true {
+  ifresult = 1
+}
+test("if with true condition", ifresult == 1)
+
+ifresult = 0
+if false {
+  ifresult = 1
+} else {
+  ifresult = 2
+}
+test("if-else with false condition", ifresult == 2)
+
+ifresult = 0
+if 10 > 5 {
+  ifresult = 1
+}
+test("if with comparison", ifresult == 1)
+
+// 6. control flow - loops
+let mut counter = 0
+while counter < 5 {
+  counter = counter + 1
+}
+test("while loop", counter == 5)
+
+counter = 0
+loop {
+  counter = counter + 1
+  if counter == 3 {
+    break
+  }
+}
+test("loop with break", counter == 3)
+
+// 7. arrays
+let arr = [10, 20, 30]
+test("array creation", len(arr) == 3)
+test("array indexing", arr[0] == 10)
+test("array index 1", arr[1] == 20)
+test("array index 2", arr[2] == 30)
+
+arr[1] = 99
+test("array modification", arr[1] == 99)
+
+let empty = []
+test("empty array", len(empty) == 0)
+
+// 8. for loops
+let sum = 0
+for x in [1, 2, 3, 4, 5] {
+  sum = sum + x
+}
+test("for loop sum", sum == 15)
+
+let mut count = 0
+for x in [10, 20, 30] {
+  count = count + 1
+}
+test("for loop count", count == 3)
+
+// 9. functions
+fn add(a, b) {
+  return a + b
+}
+test("simple function", add(3, 4) == 7)
+
+fn multiply(x, y) {
+  return x * y
+}
+test("function with different name", multiply(6, 7) == 42)
+
+fn noparams() {
+  return 42
+}
+test("function with no params", noparams() == 42)
+
+fn noreturn() {
+  let x = 10
+}
+let noneresult = noreturn()
+test("function without explicit return", type_of(noneresult) == "none")
+
+// 10. recursion
+fn factorial(n) {
+  if n <= 1 {
+    return 1
+  }
+  return n * factorial(n - 1)
+}
+test("factorial(5)", factorial(5) == 120)
+test("factorial(0)", factorial(0) == 1)
+
+fn fibonacci(n) {
+  if n <= 1 {
+    return n
+  }
+  return fibonacci(n - 1) + fibonacci(n - 2)
+}
+test("fibonacci(10)", fibonacci(10) == 55)
+test("fibonacci(7)", fibonacci(7) == 13)
+
+// 11. closures
+fn makeadder(x) {
+  return |y| x + y
+}
+let add5 = makeadder(5)
+test("closure captures value", add5(3) == 8)
+
+fn makecounter(start) {
+  let mut count = start
+  return || {
+    count = count + 1
+    return count
+  }
+}
+let counter1 = makecounter(0)
+test("counter first call", counter1() == 1)
+test("counter second call", counter1() == 2)
+test("counter third call", counter1() == 3)
+
+let counter2 = makecounter(10)
+test("independent counter first", counter2() == 11)
+test("counter1 still independent", counter1() == 4)
+
+// 12. nested closures
+fn outer(x) {
+  return |y| {
+    return |z| x + y + z
+  }
+}
+let f1 = outer(1)
+let f2 = f1(2)
+test("nested closure", f2(3) == 6)
+
+// 13. higher-order functions
+fn apply(f, x) {
+  return f(x)
+}
+fn double(n) {
+  return n * 2
+}
+test("higher-order function", apply(double, 5) == 10)
+
+fn compose(f, g, x) {
+  return f(g(x))
+}
+fn square(n) {
+  return n * n
+}
+test("function composition", compose(double, square, 3) == 18)
+
+// 14. builtin functions
+test("len() on array", len([1, 2, 3, 4]) == 4)
+test("type_of() i32", type_of(42) == "i32")
+test("type_of() bool", type_of(true) == "bool")
+test("type_of() array", type_of([]) == "array")
+test("type_of() function", type_of(double) == "function")
+test("abs() positive", abs(5) == 5)
+test("abs() negative", abs(0 - 5) == 5)
+test("sqrt() 16", floor(sqrt(16)) == 4)
+test("sqrt() 25", floor(sqrt(25)) == 5)
+test("floor() 3.7", floor(3.7) == 3)
+test("floor() 3.1", floor(3.1) == 3)
+
+// 15. complex expressions
+fn complexcalc(a, b, c) {
+  return (a + b) * c - a / b
+}
+test("complex expression", compl 	excalc(10, 5, 3) == 43)
+
+let nested = [[1, 2], [3, 4], [5, 6]]
+test("nested array access", nested[1][0] == 3)
+test("nested array len", len(nested[2]) == 2)
+
+// 16. edge cases
+test("zero division result exists", type_of(10 / 0) == "i32")
+test("negative modulo", (0 - 10) % 3 == 0 - 1)
+test("boolean as condition", true == true)
+
+fn earlyreturn(x) {
+  if x > 10 {
+    return 1
+  }
+  if x > 5 {
+    return 2
+  }
+  return 3
+}
+test("early return case 1", earlyreturn(15) == 1)
+test("early return case 2", earlyreturn(7) == 2)
+test("early return case 3", earlyreturn(3) == 3)
+
+// 17. closure mutation
+
+fn makeaccumulator(initial) {
+  let mut total = initial
+  return |x| {
+    total = total + x
+    return total
+  }
+}
+let acc = makeaccumulator(0)
+test("accumulator first", acc(5) == 5)
+test("accumulator second", acc(10) == 15)
+test("accumulator third", acc(3) == 18)
+
+// 18. multiple parameters
+fn sum3(a, b, c) {
+  return a + b + c
+}
+test("3 parameters", sum3(1, 2, 3) == 6)
+
+fn sum5(a, b, c, d, e) {
+  return a + b + c + d + e
+}
+test("5 parameters", sum5(1, 2, 3, 4, 5) == 15)
+
+// 19. mixed types
+test("int + float promotion", type_of(5 + 3.5) == "f32")
+test("float subtraction", floor(10.5 - 3.5) == 7)
+
+// 20. string operations
+test("string type", type_of("hello") == "string")
+let strval = "test"
+test("string equality", strval == "test")
+
+// final results
+print("")
+print("Passed:", testspassed)
+print("Failed:", testsfailed)
+let total = testspassed + testsfailed
+print("Total:", total)
+
+if testsfailed == 0 {
+  print("✓ TESTS PASSED!")
+} else {
+  print("✗ TESTS FAILED")
+}

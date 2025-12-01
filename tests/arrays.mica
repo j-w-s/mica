@@ -1,0 +1,26 @@
+// array operations
+let arr = [1, 2, 3, 4, 5]
+print(arr)
+print(len(arr))
+
+// array indexing
+print(arr[0])
+print(arr[2])
+
+// array modification
+arr[1] = 10
+print(arr)
+
+// for loop over array
+for x in arr {
+  print(x)
+}
+
+// nested arrays
+let matrix = [[1, 2], [3, 4], [5, 6]]
+print(matrix)
+
+// builtin functions
+print(type_of(arr))
+print(type_of(42))
+print(type_of(true))
