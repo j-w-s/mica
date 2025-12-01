@@ -1,17 +1,20 @@
-this is still a work in progress, so updates/documentation will be delayed (though they will eventually follow).
+# mica
+<p>this is still a work in progress, so updates/documentation will be delayed (though they will eventually follow).
 
 i had initially attempted to create something similar to this but full-fledged with its compiler written in rust, but i realized i
 was slightly in over my head and opted for something scoped down, more simialr to lua.
 
 more tests for the language to be written. current effort is being put toward fixing complex scoping and memory management issues w/ regard to
-how the interpreter handles variable resolution in nested blocks and closures
+how the interpreter handles variable resolution in nested blocks and closures</p>
 
-# small, embeddable, and fast
-# register-based virtual machine
-# functional by design with closure support (upvalues)
-# refcount gc, so memory is deterministic (also makes my life harder)
-# c api for host integration
+<p>
+# small, embeddable, and fast </br>
+# register-based virtual machine </br>
+# functional by design with closure support (upvalues) </br>
+# refcount gc, so memory is deterministic (also makes my life harder) </br>
+# c api for host integration </br>
 # immutable by default
+</p>
 
 ### embed in c
 ```c
