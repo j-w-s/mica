@@ -1,0 +1,28 @@
+fn add(a, b) {
+  return a + b
+}
+
+let result = add(10, 20)
+print(result)
+
+fn fib(n) {
+  if n <= 1 {
+    return n
+  }
+  return fib(n - 1) + fib(n - 2)
+}
+
+print(fib(10))
+
+fn make_counter() {
+  let mut count = 0
+  return || {
+    count = count + 1
+    return count
+  }
+}
+
+let counter = make_counter()
+print(counter())
+print(counter())
+print(counter())
